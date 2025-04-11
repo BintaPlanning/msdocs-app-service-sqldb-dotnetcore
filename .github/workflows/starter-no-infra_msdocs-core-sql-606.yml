@@ -26,6 +26,15 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: Install dotnet-ef
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Add dotnet tools to PATH
+        run: echo "${{env.DOTNET_ROOT}}/tools" >> $GITHUB_PATH
+
+      - name: Create migration bundle
+        run: dotnet ef migrations bundle -o ${{env.DOTNET_ROOT}}/myapp/migrationbundle
+
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
